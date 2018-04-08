@@ -18,7 +18,7 @@ resource "google_compute_instance" "default" {
   allow_stopping_for_update = true
 
   provisioner "local-exec" {
-    command = "echo hello terra ${self.instance_id} > shit.txt"
+    command = "echo hello terra ${self.instance_id} > laptop_terra.log"
 //    working_dir = "/home/"
 //    interpreter = ["/bin/bash"]
   }
@@ -47,7 +47,7 @@ resource "google_compute_instance" "default" {
     metafoo = "mymetafoo"
   }
 
-  metadata_startup_script = "echo hi > /test.txt"
+  metadata_startup_script = "echo hi > /remote_terra.log"
 
   service_account {
     scopes = ["userinfo-email", "compute-ro", "storage-ro"]
