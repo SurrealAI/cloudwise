@@ -17,10 +17,10 @@ variable "cluster_name" {
 provider "google" {
   credentials = "${file(${var.credential})}"
   project     = "${var.project}"
-  region      = "us-west1-b"
+  region      = "${var.zone}"
 }
 
-resource "google_container_cluster" "kurreal" {
+resource "google_container_cluster" "${var.cluster_name}" {
   name = "${var.cluster_name}"
   zone = "${var.zone}"
   min_master_version = "1.9"
