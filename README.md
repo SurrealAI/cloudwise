@@ -1,6 +1,6 @@
-# Overture
+# Cloudtopia
 
-`overture` is our cloud infrastructure provisioner based on Terraform.
+`cloudtopia` is our cloud infrastructure provisioner based on Terraform.
 
 It prepares the playground for the `symphony` orchestration engine. 
 
