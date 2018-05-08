@@ -8,10 +8,10 @@ def read(fname):
 
 
 setup(
-    name='cloudtopia',
+    name='cloudwork',
     version='0.1',
     author='Surreal AI',
-    url='http://github.com/SurrealAI/cloudtopia',
+    url='http://github.com/SurrealAI/cloudwork',
     description='',
     # long_description=read('README.rst'),
     keywords=['machine learning',
@@ -21,7 +21,7 @@ setup(
               'terraform',
               'kubernetes'],
     license='GPLv3',
-    packages=['cloudtopia'],
+    packages=['cloudwork'],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
