@@ -88,12 +88,20 @@ def main():
         'machines with 16 cpu + 1 p100 each, for gpu workload',
         'machines with 32 cpu + 4 p100 each, for heavy gpu workload',
     ]
+
+    confirmed_configurations = []
     for i in range(len(configurations)):
         configuration = configurations[i]
         description = descriptions[i]
         confirmed = U.get_yn('\nAdd {}?'.format(description), default=True)
         if confirmed:
             launcher.add_nodepool(**configuration)
+            confirmed_configurations.append(configuration)
+    if len(confirmed_configurations) > 0:
+        confirmed = U.get_yn('\nAdd preemptible versions of these node pools as well?', default=True)
+        if confirmed:
+            for configuration in confirmed_configurations:
+                launcher.add_nodepool(preemptible=True, **configuration)
 
     output_name = cluster_name + '.tf.json'
     fname = U.get_input('\nPlease provide a filename for the configured tf file [{}]'.format(output_name),

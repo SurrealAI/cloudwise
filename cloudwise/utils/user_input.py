@@ -44,7 +44,7 @@ def get_yn(prompt, default=None):
 
 def propose_next_action():
     print("Successfully generated terraform files, please run the following command to view the proposed changes:")
-    print("\nterraform init && terraform plan\n")
+    print("\n> terraform init && terraform plan\n")
 
     print("If everything looks right, run:")
-    print("\nterraform apply\n")
+    print("\n> terraform apply\n")
