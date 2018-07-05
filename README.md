@@ -7,7 +7,8 @@ It prepares the playground for the [`symphony` orchestration engine](https://git
 [Google doc](https://goo.gl/hbfbrC)
 
 # Installation
-* Run `pip install -e .` in the current directory.
+* Do `git clone git@github.com:SurrealAI/cloudwise.git && cd cloudwise`
+* Run `pip install -e .` in this directory.
 * Install terraform following instructions [here](https://www.terraform.io/intro/getting-started/install.html)
 
 # Usage
