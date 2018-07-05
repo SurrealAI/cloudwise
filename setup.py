@@ -8,20 +8,19 @@ def read(fname):
 
 
 setup(
-    name='cloudwork',
+    name='cloudwise',
     version='0.1',
     author='Surreal AI',
-    url='http://github.com/SurrealAI/cloudwork',
+    url='http://github.com/SurrealAI/cloudwise',
     description='',
     # long_description=read('README.rst'),
     keywords=['machine learning',
               'cloud computing',
-              'deep learning',
               'distributed computing',
               'terraform',
               'kubernetes'],
     license='GPLv3',
-    packages=['cloudwork'],
+    packages=['cloudwise'],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
@@ -29,8 +28,9 @@ setup(
     ],
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        'pyyaml',
-    ],
+    install_requires=[],
+    entry_points = {
+        'console_scripts': ['cloudwise-gke=cloudwise.gke.gke_commandline:main'],
+    },
     python_requires='>=3.5',
 )
