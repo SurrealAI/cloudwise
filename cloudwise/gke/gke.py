@@ -44,6 +44,7 @@ def _create_node_config(cpu,
                         labels,
                         taints,
                         exclusive_workload,
+                        name=None,
                        ):
 
     if cpu is not None and memory_g is not None:
@@ -65,6 +66,9 @@ def _create_node_config(cpu,
         "cpu": cpu,
         "memory_m": memory_m,
     }
+    if name is None:
+        name = all_labels["machine_summary"]
+    all_labels["name"] = name
     all_taints = []
     config["labels"] = all_labels
     config["taint"] = all_taints
@@ -89,7 +93,7 @@ def _create_node_config(cpu,
     if preemptible:
         all_taints.append({
             "key": "preemptible",
-            "value": "true",
+            "value": preemptible,
             "effect": "NO_EXECUTE",
         })
 
@@ -137,6 +141,9 @@ def _nodepool(*,
         },
         "initial_node_count": initial_node_count,
         "node_config": node_config,
+        "lifecycle": {
+            "ignore_changes": ["*"],
+        },
     }
     if use_autoscaling:
         config["autoscaling"] = {
