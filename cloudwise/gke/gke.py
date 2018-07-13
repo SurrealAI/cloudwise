@@ -9,7 +9,7 @@ _GPU_NAME_MAP = {
 }
 
 def _get_machine_summary(cpu, memory_m, gpu_type, gpu_count, preemptible):
-    arr = ['nodepool', str(cpu) + 'cpu', str(memory_m) + 'mem']
+    arr = ['np', str(cpu) + 'cpu', str(memory_m) + 'mem']
     if gpu_type is not None:
         arr.append("{}{}".format(gpu_count, _GPU_NAME_MAP[gpu_type]))
     if preemptible:
@@ -147,10 +147,10 @@ def _nodepool(*,
 
 class GKELauncher:
     def __init__(self,
-                 credential_file,
                  project,
                  zone,
-                 cluster_name):
+                 cluster_name,
+                 credential_file=None):
         self.config = {
             "variable": {
                 "cluster_name": {
@@ -159,7 +159,6 @@ class GKELauncher:
             },
             "provider": {
                 "google": {
-                    "credentials": "${{file(\"{}\")}}".format(credential_file),
                     "project": project,
                     "zone": zone,
                 }
@@ -175,8 +174,12 @@ class GKELauncher:
                 "google_container_node_pool": {},
             },
         }
+        if credential_file is not None:
+            self.config["provider"]["google"]["credentials"] = "${{file(\"{}\")}}".format(credential_file)
         self.node_pools = self.config["resource"]["google_container_node_pool"]
 
     def add_nodepool(self, **kwargs):
         config = _nodepool(**kwargs)
+        if config["name"] in self.node_pools:
+            raise ValueError('Nodepool with name {} has already been created'.format(config["name"]))
         self.node_pools[config["name"]] = config

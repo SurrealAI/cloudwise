@@ -15,11 +15,14 @@ def get_input(prompt, input_type=None, default=None):
         if default is not None:
             return _optionally_typed(default, input_type)
 
-def get_file(prompt):
+def get_file(prompt, pass_on_empty=True):
     while True:
         file_path = input(prompt)
         if not file_path:
-            continue
+            if pass_on_empty:
+                return None
+            else:
+                continue
         file = Path(path.expanduser(file_path))
         if file.exists():
             return str(file)
