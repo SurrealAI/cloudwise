@@ -25,7 +25,7 @@ def _infer_cpu_memory(machine_type):
         return cpu, memory
     elif machine_type.find("n1-highmem-") == 0:
         cpu = int(machine_type[len("n1-highmem-"):])
-        memory = 13 * cpu
+        memory = 6.5 * cpu
         return cpu, memory
     elif machine_type.find("n1-highcpu-") == 0:
         cpu = int(machine_type[len("n1-highcpu-"):])
@@ -58,6 +58,12 @@ def _create_node_config(cpu,
         "machine_type": machine_type,
         "preemptible": preemptible,
         "disk_size_gb": disk_size_gb,
+        "oauth_scopes": [
+            "https://www.googleapis.com/auth/compute",
+            "https://www.googleapis.com/auth/devstorage.read_only",
+            "https://www.googleapis.com/auth/logging.write",
+            "https://www.googleapis.com/auth/monitoring",
+        ],
     }
     all_labels = {
         "machine_summary": _get_machine_summary(cpu, memory_m, gpu_type, gpu_count, preemptible),
@@ -84,16 +90,16 @@ def _create_node_config(cpu,
     if labels is not None:
         U.merge_dict(all_labels, labels)
 
-    if exclusive_workload is not None:
+    if exclusive_workload:
         all_taints.append({
             "key": "exclusive_workload",
-            "value": exclusive_workload,
+            "value": "exclusive",
             "effect": "NO_EXECUTE",
         })
     if preemptible:
         all_taints.append({
             "key": "preemptible",
-            "value": preemptible,
+            "value": "yes",
             "effect": "NO_EXECUTE",
         })
 
@@ -106,7 +112,7 @@ def _create_node_config(cpu,
 def _nodepool(*,
               name=None,
               use_autoscaling=True,
-              initial_node_count=1,
+              initial_node_count=None,
               min_node_count=0,
               max_node_count=100,
               cpu=None,
@@ -129,7 +135,8 @@ def _nodepool(*,
                                       disk_size_gb,
                                       labels,
                                       taints,
-                                      exclusive_workload)
+                                      exclusive_workload,
+                                      name=name)
     if name is None:
         name = node_config["labels"]["machine_summary"]
     config = {
@@ -139,12 +146,14 @@ def _nodepool(*,
             "auto_repair": True,
             "auto_upgrade": True,
         },
-        "initial_node_count": initial_node_count,
         "node_config": node_config,
         "lifecycle": {
-            "ignore_changes": ["*"],
-        },
+            "ignore_changes": ["node_config.0.taint"],
+        }
     }
+    if initial_node_count is not None:
+        config["initial_node_count"] = initial_node_count
+
     if use_autoscaling:
         config["autoscaling"] = {
             "min_node_count": min_node_count,
