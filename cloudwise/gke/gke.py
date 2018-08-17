@@ -121,7 +121,7 @@ def _nodepool(*,
               gpu_type=None,
               gpu_count=0,
               preemptible=False,
-              disk_size_gb=100,
+              disk_size_gb=10,
               labels=None,
               taints=None,
               exclusive_workload=None):

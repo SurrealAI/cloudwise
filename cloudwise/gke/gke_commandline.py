@@ -16,10 +16,12 @@ def main():
                           input_type=str)
 
     print("\nPlease follow this guide: https://www.terraform.io/docs/providers/google/ to obtain authentication json.")
+    print("\nRun `gcloud auth application-default login` if you skip the authentication JSON")
     credential_file = U.get_file("Please provide path to the authentication json [skip]: ")
 
-    zone = U.get_input("\nWhich zone will your instances be in? (e.g. us-west1-b): ",
-                       input_type=str)
+    zone = U.get_input("\nWhich zone will your instances be in? [us-west1-b]: ",
+                       input_type=str,
+                       default='us-west1-b')
 
     cluster_name = U.get_input("\nGive your kubernetes cluster a name: ",
                                input_type=str)
@@ -33,13 +35,14 @@ def main():
     machine_type = U.get_input('The machine type to use for default node pool [n1-standard-2]: ',
                                input_type=str,
                                default='n1-standard-2')
-    max_count = U.get_input('The maximum number of nodes for default node pool [50]: ',
+    max_count = U.get_input('The maximum number of nodes for default node pool [1000]: ',
                             input_type=int,
-                            default=50)
+                            default=1000)
     launcher.add_nodepool(machine_type=machine_type,
                           min_node_count=3, 
                           max_node_count=max_count,
                           initial_node_count=3,
+                          disk_size_gb=10,
                           name="np-default-{}".format(machine_type))
 
     print("")
@@ -49,19 +52,16 @@ def main():
         {
             'machine_type': 'n1-standard-2',
             'exclusive_workload': True,
-            'max_node_count': 200,
         },
         {
             'machine_type': 'n1-standard-8',
             'exclusive_workload': True,
-            'max_node_count': 50,
         },
         {
             'machine_type': 'n1-standard-8',
             'exclusive_workload': True,
             'gpu_type': 'nvidia-tesla-k80',
             'gpu_count': 1,
-            'max_node_count': 100,
         },
         # {
         #     'machine_type': 'n1-standard-16',
@@ -75,21 +75,12 @@ def main():
             'exclusive_workload': True,
             'gpu_type': 'nvidia-tesla-p100',
             'gpu_count': 1,
-            'max_node_count': 100,
         },
-        # {
-        #     'machine_type': 'n1-standard-32',
-        #     'exclusive_workload': True,
-        #     'gpu_type': 'nvidia-tesla-p100',
-        #     'gpu_count': 4,
-        #     'max_node_count': 25,
-        # },
         {
             'machine_type': 'n1-highmem-8',
             'exclusive_workload': True,
             'gpu_type': 'nvidia-tesla-v100',
             'gpu_count': 1,
-            'max_node_count': 100,
         },
         # {
         #     'machine_type': 'n1-standard-32',
@@ -115,6 +106,8 @@ def main():
     confirmed_configurations = []
     for i in range(len(configurations)):
         configuration = configurations[i]
+        configuration["max_node_count"] = 100
+        configuration["disk_size_gb"] = 10
         description = descriptions[i]
         confirmed = U.get_yn('\nAdd {}?'.format(description), default=True)
         if confirmed:
@@ -125,7 +118,7 @@ def main():
         if confirmed:
             for configuration in confirmed_configurations:
                 configuration = copy.copy(configuration)
-                configuration['max_node_count'] = 20
+                configuration['max_node_count'] = 1000
                 launcher.add_nodepool(preemptible=True, **configuration)
 
     output_name = cluster_name + '.tf.json'
