@@ -16,7 +16,7 @@
         "google_container_node_pool": {
             "np-2cpu-7680mem-np": {
                 "autoscaling": {
-                    "max_node_count": 100,
+                    "max_node_count": 200,
                     "min_node_count": 0
                 },
                 "cluster": "${var.cluster_name}",
@@ -31,7 +31,7 @@
                 },
                 "name": "np-2cpu-7680mem-np",
                 "node_config": {
-                    "disk_size_gb": 10,
+                    "disk_size_gb": 30,
                     "labels": {
                         "cpu": 2,
                         "machine_summary": "np-2cpu-7680mem-np",
@@ -74,7 +74,7 @@
                 },
                 "name": "np-8cpu-30720mem-1k80-np",
                 "node_config": {
-                    "disk_size_gb": 10,
+                    "disk_size_gb": 30,
                     "guest_accelerator": [
                         {
                             "count": 1,
@@ -125,7 +125,7 @@
                 },
                 "name": "np-8cpu-30720mem-np",
                 "node_config": {
-                    "disk_size_gb": 10,
+                    "disk_size_gb": 30,
                     "labels": {
                         "cpu": 8,
                         "machine_summary": "np-8cpu-30720mem-np",
@@ -168,7 +168,7 @@
                 },
                 "name": "np-8cpu-53248mem-1p100-np",
                 "node_config": {
-                    "disk_size_gb": 10,
+                    "disk_size_gb": 30,
                     "guest_accelerator": [
                         {
                             "count": 1,
@@ -219,7 +219,7 @@
                 },
                 "name": "np-8cpu-53248mem-1v100-np",
                 "node_config": {
-                    "disk_size_gb": 10,
+                    "disk_size_gb": 30,
                     "guest_accelerator": [
                         {
                             "count": 1,
@@ -255,7 +255,7 @@
             },
             "np-default-n1-standard-2": {
                 "autoscaling": {
-                    "max_node_count": 100,
+                    "max_node_count": 50,
                     "min_node_count": 3
                 },
                 "cluster": "${var.cluster_name}",
@@ -271,7 +271,7 @@
                 },
                 "name": "np-default-n1-standard-2",
                 "node_config": {
-                    "disk_size_gb": 10,
+                    "disk_size_gb": 30,
                     "labels": {
                         "cpu": 2,
                         "machine_summary": "np-2cpu-7680mem-np",
