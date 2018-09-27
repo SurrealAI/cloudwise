@@ -49,19 +49,19 @@ def main():
         {
             'machine_type': 'n1-standard-2',
             'exclusive_workload': True,
-            'max_node_count': 200,
+            'max_node_count': 256,
         },
         {
             'machine_type': 'n1-standard-8',
             'exclusive_workload': True,
-            'max_node_count': 50,
+            'max_node_count': 128,
         },
         {
-            'machine_type': 'n1-standard-8',
+            'machine_type': 'n1-standard-32',
             'exclusive_workload': True,
             'gpu_type': 'nvidia-tesla-k80',
-            'gpu_count': 1,
-            'max_node_count': 100,
+            'gpu_count': 4,
+            'max_node_count': 128,
         },
         # {
         #     'machine_type': 'n1-standard-16',
@@ -71,11 +71,11 @@ def main():
         #     'max_node_count': 25,
         # },
         {
-            'machine_type': 'n1-highmem-8',
+            'machine_type': 'n1-highmem-32',
             'exclusive_workload': True,
             'gpu_type': 'nvidia-tesla-p100',
-            'gpu_count': 1,
-            'max_node_count': 100,
+            'gpu_count': 4,
+            'max_node_count': 128,
         },
         # {
         #     'machine_type': 'n1-standard-32',
@@ -84,13 +84,13 @@ def main():
         #     'gpu_count': 4,
         #     'max_node_count': 25,
         # },
-        {
-            'machine_type': 'n1-highmem-8',
-            'exclusive_workload': True,
-            'gpu_type': 'nvidia-tesla-v100',
-            'gpu_count': 1,
-            'max_node_count': 100,
-        },
+        # {
+        #     'machine_type': 'n1-highmem-8',
+        #     'exclusive_workload': True,
+        #     'gpu_type': 'nvidia-tesla-v100',
+        #     'gpu_count': 1,
+        #     'max_node_count': 100,
+        # },
         # {
         #     'machine_type': 'n1-standard-32',
         #     'exclusive_workload': True,
@@ -98,17 +98,32 @@ def main():
         #     'gpu_count': 4,
         #     'max_node_count': 25,
         # },
+        {
+            'cpu': 12,
+            'memory_g': 45,
+            'exclusive_workload': True,
+            'gpu_type': 'nvidia-tesla-v100',
+            'gpu_count': 1,
+            'max_node_count': 128,
+        },
+        {
+            'machine_type': 'n1-standard-32',
+            'exclusive_workload': True,
+            'max_node_count': 128,
+        },
 
     ]
     descriptions = [
         'machines with 2 cpu each, for small workload',
         'machines with 8 cpu each, for cpu workload',
-        'machines with 8 cpu + 1 k80 each, for gpu workload',
+        'machines with 32 cpu + 4 k80 each, for gpu workload',
         # 'machines with 16 cpu + 4 k80 each, for heavy gpu workload',
-        'high memory machines with 8 cpu + 1 p100 each',
+        'high memory machines with 32 cpu + 4 p100 each',
         # 'machines with 32 cpu + 4 p100 each',
-        'high memory machines with 8 cpu + 1 v100 each',
+        # 'high memory machines with 8 cpu + 1 v100 each',
         # 'machines with 32 cpu + 4 v100 each',
+        'machines with 12 cpu + 1v100 each',
+        'machines with 32 cpu + 120G of memory each',
 
     ]
 
