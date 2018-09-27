@@ -18,8 +18,8 @@ def main():
     print("\nPlease follow this guide: https://www.terraform.io/docs/providers/google/ to obtain authentication json.")
     credential_file = U.get_file("Please provide path to the authentication json [skip]: ")
 
-    zone = U.get_input("\nWhich zone will your instances be in? (e.g. us-west1-b): ",
-                       input_type=str)
+    zone = U.get_input("\nWhich zone will your instances be in? [us-west1-b]: ",
+                       input_type=str, default='us-west1-b')
 
     cluster_name = U.get_input("\nGive your kubernetes cluster a name: ",
                                input_type=str)
@@ -40,6 +40,7 @@ def main():
                           min_node_count=3, 
                           max_node_count=max_count,
                           initial_node_count=3,
+                          disk_size_gb=30,
                           name="np-default-{}".format(machine_type))
 
     print("")
@@ -132,11 +133,12 @@ def main():
         configuration = configurations[i]
         description = descriptions[i]
         confirmed = U.get_yn('\nAdd {}?'.format(description), default=True)
+        configuration['disk_size_gb'] = 30
         if confirmed:
             launcher.add_nodepool(**configuration)
             confirmed_configurations.append(configuration)
     if len(confirmed_configurations) > 0:
-        confirmed = U.get_yn('\nAdd preemptible versions of all added node pools as well?', default=True)
+        confirmed = U.get_yn('\nAdd preemptible versions of all added node pools as well?', default=False)
         if confirmed:
             for configuration in confirmed_configurations:
                 configuration = copy.copy(configuration)
