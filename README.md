@@ -7,8 +7,8 @@
 
 `cloudwise` is Surreal's cloud infrastructure provisioner based on Terraform. Surreal's [website](surreal.stanford.edu) and [github](https://github.com/SurrealAI/Surreal).
 
-It prepares a kubernetes cluster using terraform.
-[`symphony` orchestration engine](https://github.com/SurrealAI/symphony). 
+It prepares a kubernetes cluster using terraform. It generates `.tf.json` files that are also recognized by
+[Symphony](https://github.com/SurrealAI/symphony). 
 
 # Installation
 * Cloud wise runs in python 3
