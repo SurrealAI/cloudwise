@@ -1,12 +1,12 @@
-from os.path import expanduser
-from pathlib import Path
 import cloudwise.utils as U
+
 
 _GPU_NAME_MAP = {
     'nvidia-tesla-k80': 'k80',
     'nvidia-tesla-p100': 'p100',
     'nvidia-tesla-v100': 'v100',
 }
+
 
 def _get_machine_summary(cpu, memory_m, gpu_type, gpu_count, preemptible):
     arr = ['np', str(cpu) + 'cpu', str(memory_m) + 'mem']
@@ -17,6 +17,7 @@ def _get_machine_summary(cpu, memory_m, gpu_type, gpu_count, preemptible):
     else:
         arr.append("np")
     return "-".join(arr)
+
 
 def _infer_cpu_memory(machine_type):
     if machine_type.find("n1-standard-") == 0:
@@ -34,6 +35,7 @@ def _infer_cpu_memory(machine_type):
     else:
         raise ValueError("Unknown machine type {}".format(machine_type))
 
+
 def _create_node_config(cpu,
                         memory_g,
                         machine_type,
@@ -45,7 +47,7 @@ def _create_node_config(cpu,
                         taints,
                         exclusive_workload,
                         name=None,
-                       ):
+                        ):
 
     if cpu is not None and memory_g is not None:
         if machine_type is not None:
@@ -109,6 +111,7 @@ def _create_node_config(cpu,
 
     return config
 
+
 def _nodepool(*,
               name=None,
               use_autoscaling=True,
@@ -160,6 +163,7 @@ def _nodepool(*,
             "max_node_count": max_node_count,
         }
     return config
+
 
 class GKELauncher:
     def __init__(self,

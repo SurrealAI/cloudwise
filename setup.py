@@ -12,7 +12,7 @@ setup(
     version='0.1',
     author='Surreal AI',
     url='http://github.com/SurrealAI/cloudwise',
-    description='',
+    description='Set up a Kubernetes cluster for distributed AI research',
     # long_description=read('README.rst'),
     keywords=['machine learning',
               'cloud computing',
@@ -29,7 +29,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[],
-    entry_points = {
+    entry_points={
         'console_scripts': ['cloudwise-gke=cloudwise.gke.gke_commandline:main'],
     },
     python_requires='>=3.5',
