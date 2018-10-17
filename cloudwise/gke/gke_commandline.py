@@ -21,17 +21,20 @@ def print_state(descriptions, added):
 
 
 def print_actions(descriptions, combo_names, combo_node_lists):
-    print('\nAvailable actions:')
-    print('add <0~{}>'.format(len(descriptions) - 1))
-    print('remove <0~{}>'.format(len(descriptions) - 1))
-    print('combo <0~{}>'.format(len(combo_names) - 1))
+    print('\n# Available actions:')
+    print('# Add node pool n')
+    print(' add <0~{}>'.format(len(descriptions) - 1))
+    print('# Remove node pool n')
+    print(' remove <0~{}>'.format(len(descriptions) - 1))
+    print('# Use one of the defined set of node pools below')
+    print(' combo <0~{}>'.format(len(combo_names) - 1))
     for i in range(len(combo_names)):
         combo_text = combo_names[i]
         nodes = combo_node_lists[i]
         node_list_str = ', '.join([descriptions[i] for i in nodes])
         print('\t[{}] {}: {}'.format(i, combo_text, node_list_str))
-    print('done')
-    print('exit')
+    print('# Type "done" to exit')
+    print(' done')
 
 
 def add_custom(launcher, preemptible):
@@ -127,9 +130,10 @@ def add_custom(launcher, preemptible):
             print_state(descriptions, added)
             state_changed = False
         print_actions(descriptions, combo_names, combo_node_lists)
-        actions = U.get_input('>', str)
+        actions = U.get_input('> ', str)
+        print('')
         actions = actions.split(' ')
-        if actions[0] not in ['add', 'remove', 'combo', 'done', 'exit']:
+        if actions[0] not in ['add', 'remove', 'combo', 'done']:
             continue
         elif actions[0] in ['add', 'remove', 'combo']:
             if len(actions) > 2:
@@ -140,12 +144,12 @@ def add_custom(launcher, preemptible):
                 continue
             try:
                 index = int(actions[1])
-            except TypeError:
-                print('Please provide a valid index')
+            except Exception:
+                print('Please provide a valid number')
                 continue
             if actions[0] == 'add':
                 if index not in range(len(descriptions)):
-                    print('Please provide a valid index')
+                    print('Please provide a number between 0 and {}'.format(len(descriptions)))
                     continue
                 else:
                     added[index] = True
@@ -153,7 +157,7 @@ def add_custom(launcher, preemptible):
                     continue
             if actions[0] == 'remove':
                 if index not in range(len(descriptions)):
-                    print('Please provide a valid index')
+                    print('Please provide a number between 0 and {}'.format(len(descriptions)))
                     continue
                 else:
                     added[index] = False
@@ -170,8 +174,6 @@ def add_custom(launcher, preemptible):
                     continue
         elif actions[0] == 'done':
             break
-        elif actions[0] == 'exit':
-            exit(0)
 
     for i in range(len(configurations)):
         if added[i]:
