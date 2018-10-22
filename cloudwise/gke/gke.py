@@ -92,18 +92,22 @@ def _create_node_config(cpu,
     if labels is not None:
         U.merge_dict(all_labels, labels)
 
+    # Do not create taints for GPU based node pool to avoid blocking google cloud default
+    # driver installer daemonset
     if exclusive_workload:
-        all_taints.append({
-            "key": "exclusive_workload",
-            "value": "exclusive",
-            "effect": "NO_EXECUTE",
-        })
+        if gpu_type is None:
+            all_taints.append({
+                "key": "exclusive_workload",
+                "value": "exclusive",
+                "effect": "NO_EXECUTE",
+            })
     if preemptible:
-        all_taints.append({
-            "key": "preemptible",
-            "value": "yes",
-            "effect": "NO_EXECUTE",
-        })
+        if gpu_type is None:
+            all_taints.append({
+                "key": "preemptible",
+                "value": "yes",
+                "effect": "NO_EXECUTE",
+            })
 
     if taints is not None:
         for taint in taints:
