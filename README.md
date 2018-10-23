@@ -42,14 +42,14 @@ It will provide instructions and generate a `<cluster_name>.tf.json` file which 
 * `terraform apply` makes the changes to your cloud project. 
 * After cluster creation, obtain credentials for kubectl.
 ```bash
-> gcoud container clusters get-credentials <cluster_name>
+> gcloud container clusters get-credentials <cluster_name>
 ```
 * If you have GPUs in your cluster, create the daemon set to install drivers, see [documentation](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers).
 ```bash
 > kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/container-engine-accelerators/stable/nvidia-driver-installer/cos/daemonset-preloaded.yaml
 ```
 * The generated `<cluster_name>.tf.json` is also recognized by [Symphony](https://github.com/SurrealAI/symphony)'s scheduling mechanism and `Surreal`. So you may want to link to it 
-* If you want to remove everything, run `terraform destory`
+* If you want to remove everything, run `terraform destroy`
 
 ## AWS
 Stay tuned
