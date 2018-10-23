@@ -42,7 +42,7 @@ It will provide instructions and generate a `<cluster_name>.tf.json` file which 
 * `terraform apply` makes the changes to your cloud project. 
 * After cluster creation, obtain credentials for kubectl.
 ```bash
-> gcoud container clusters get-credentials <cluster_name>
+> gcloud container clusters get-credentials <cluster_name>
 ```
 * If you have GPUs in your cluster, create the daemon set to install drivers, see [documentation](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers).
 ```bash
