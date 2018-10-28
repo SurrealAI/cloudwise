@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def read(fname):
@@ -9,18 +9,20 @@ def read(fname):
 
 setup(
     name='cloudwise',
-    version='0.1',
+    version='0.1.1',
     author='Surreal AI',
     url='http://github.com/SurrealAI/cloudwise',
     description='Set up a Kubernetes cluster for distributed AI research',
-    # long_description=read('README.rst'),
+    long_description=read('README.rst'),
     keywords=['machine learning',
               'cloud computing',
               'distributed computing',
               'terraform',
               'kubernetes'],
     license='GPLv3',
-    packages=['cloudwise'],
+    packages=[
+        package for package in find_packages() if package.startswith("cloudwise")
+    ],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Console",
